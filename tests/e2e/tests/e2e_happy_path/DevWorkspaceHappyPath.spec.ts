@@ -273,11 +273,14 @@ async function sendRequestToDebugApp(urlToApp: string) {
     try {
       await httpClient.get(urlToApp);
     } catch (error) {
-      if (error.message === 'timeout of 1000ms exceeded') {
-      console.log('>>>>The debugger is set >>>>>>>>>>>>>>>>>>> ' + error.message);
-      } else {          const {data} = await httpClient.get(urlToApp);
-          console.log('>>>>>>>seems the app. is not set under debug properly: >>>>>>>>>>>>>>' + data);
-      }
+        if (error instanceof Error) {
+            if (error.message === 'timeout of 1000ms exceeded') {
+                console.log('>>>>The debugger is set >>>>>>>>>>>>>>>>>>> ' + error.message);
+            } else {
+                const {data} = await httpClient.get(urlToApp);
+                console.log('>>>>>>>seems the app. is not set under debug properly: >>>>>>>>>>>>>>' + data);
+            }
+        }
   }
 }
 

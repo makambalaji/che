@@ -20,7 +20,6 @@ import { GitHubPullRequestPlugin } from '../../pageobjects/ide/plugins/GitHubPul
 import { GitLoginPage } from '../../pageobjects/third-parties/GitLoginPage';
 import { GitOauthAppsSettings } from '../../pageobjects/third-parties/GitOauthAppsSettings';
 import { WorkspaceNameHandler } from '../../utils/WorkspaceNameHandler';
-import { KeycloackUrlHandler } from '../../utils/KeycloackUrlHandler';
 import { GitPlugin } from '../../pageobjects/ide/plugins/GitPlugin';
 import { TopMenu } from '../../pageobjects/ide/TopMenu';
 import { QuickOpenContainer } from '../../pageobjects/ide/QuickOpenContainer';
@@ -66,7 +65,7 @@ suite(`The 'GitHubPullRequestPlugin' test`, async () => {
             await gitOauthAppsSettings.scrollToUpdateApplicationButton();
 
             await gitOauthAppsSettings.typeHomePageUrl(TestConstants.TS_SELENIUM_BASE_URL);
-            await gitOauthAppsSettings.typeCallbackUrl(KeycloackUrlHandler.getIdentityCallbackUrl());
+            await gitOauthAppsSettings.typeCallbackUrl(`${TestConstants.TS_SELENIUM_BASE_URL}/api/oauth/callback`);
             await gitOauthAppsSettings.clickUpdateApplicationButton();
         });
     });

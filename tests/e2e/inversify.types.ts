@@ -14,8 +14,6 @@ const TYPES = {
     CheLogin: Symbol.for('CheLogin'),
     OcpLogin: Symbol.for('OcpLogin'),
     WorkspaceUtil: Symbol.for('WorkspaceUtil'),
-    IAuthorizationHeaderHandler: Symbol.for('IAuthorizationHeaderHandler'),
-    ITokenHandler: Symbol.for('ITokenHandler')
 };
 
 const CLASSES = {
