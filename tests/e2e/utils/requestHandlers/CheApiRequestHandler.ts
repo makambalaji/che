@@ -9,7 +9,10 @@
  **********************************************************************/
 
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
-import { injectable } from 'inversify';
+import { TestConstants } from '../../TestConstants';
+import { TYPES } from '../../inversify.types';
+import { inject, injectable } from 'inversify';
+import { IAuthorizationHeaderHandler } from './headers/IAuthorizationHeaderHandler';
 import { Logger } from '../Logger';
 
 @injectable()
@@ -80,22 +83,22 @@ export class CheApiRequestHandler {
         });
     }
 
-    // constructor(@inject(TYPES.IAuthorizationHeaderHandler) private readonly headerHandler: IAuthorizationHeaderHandler) { }
+    constructor(@inject(TYPES.IAuthorizationHeaderHandler) private readonly headerHandler: IAuthorizationHeaderHandler) { }
 
-    // async get(relativeUrl: string): Promise<AxiosResponse> {
-    //     return await axios.get(this.assembleUrl(relativeUrl), await this.headerHandler.get());
-    // }
+    async get(relativeUrl: string): Promise<AxiosResponse> {
+        return await axios.get(this.assembleUrl(relativeUrl), await this.headerHandler.get());
+    }
 
-    // async post(relativeUrl: string, data?: string | any ): Promise<AxiosResponse> {
-    //     return await axios.post(this.assembleUrl(relativeUrl), data, await this.headerHandler.get());
-    // }
+    async post(relativeUrl: string, data?: string | any ): Promise<AxiosResponse> {
+        return await axios.post(this.assembleUrl(relativeUrl), data, await this.headerHandler.get());
+    }
 
-    // async delete(relativeUrl: string): Promise<AxiosResponse> {
-    //     return await axios.delete(this.assembleUrl(relativeUrl), await this.headerHandler.get());
-    // }
+    async delete(relativeUrl: string): Promise<AxiosResponse> {
+        return await axios.delete(this.assembleUrl(relativeUrl), await this.headerHandler.get());
+    }
 
-    // private assembleUrl(relativeUrl: string): string {
-    //     return `${TestConstants.TS_SELENIUM_BASE_URL}/${relativeUrl}`;
-    // }
+    private assembleUrl(relativeUrl: string): string {
+        return `${TestConstants.TS_SELENIUM_BASE_URL}/${relativeUrl}`;
+    }
 
 }

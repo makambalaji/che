@@ -39,18 +39,16 @@ let workspaceName: string;
 suite(`${workspaceStack} test`, async () => {
 
     suite(`Create ${workspaceStack} workspace`, async () => {
-        test('Workaround for issue #16113', async () => {
-            Logger.warn(`Manually setting a preference for golang devfile LS based on issue: https://github.com/eclipse/che/issues/16113`);
-            await preferencesHandler.setUseGoLanaguageServer();
-        });
         workspaceHandlingTests.createAndOpenWorkspace(workspaceStack);
-
         test('Register running workspace', async () => {
             workspaceName = WorkspaceHandlingTests.getWorkspaceName();
             CheReporter.registerRunningWorkspace(workspaceName);
         });
-
         projectAndFileTests.waitWorkspaceReadiness(workspaceSampleName, workspaceSubfolderName, false);
+        test('Workaround for issue #16113', async () => {
+            Logger.warn(`Manually setting a preference for golang devfile LS based on issue: https://github.com/eclipse/che/issues/16113`);
+            await preferencesHandler.setPreferenceUsingUI('go.useLanguageServer', 'true');
+        });
     });
 
     suite('Test opening file', async () => {
