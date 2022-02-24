@@ -24,15 +24,14 @@ export enum TerminalRendererType {
 
 export enum AskForConfirmationType {
     never = 'never',
-    ifRequired = 'ifRequired',
+    ifRquired = 'ifRequired',
     always = 'always'
 }
 
 @injectable()
 export class PreferencesHandler {
 
-    constructor(
-        @inject(CLASSES.CheApiRequestHandler) private readonly requestHandler: CheApiRequestHandler,
+    constructor(@inject(CLASSES.CheApiRequestHandler) private readonly requestHandler: CheApiRequestHandler,
         @inject(CLASSES.Editor) private readonly editor: Editor,
         @inject(CLASSES.QuickOpenContainer) private readonly quickOpenContainer: QuickOpenContainer,
         @inject(CLASSES.TopMenu) private readonly topMenu: TopMenu) {
@@ -62,7 +61,7 @@ export class PreferencesHandler {
     /**
      * Works properly only if set before workspace startup.
      */
-      public async setTerminalType(type: TerminalRendererType) {
+    public async setTerminalType(type: TerminalRendererType) {
         Logger.debug('PreferencesHandler.setTerminalToDom');
         await this.setPreference('terminal.integrated.rendererType', type);
     }

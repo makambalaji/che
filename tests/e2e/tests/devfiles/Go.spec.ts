@@ -25,14 +25,15 @@ const codeExecutionTests: CodeExecutionTests = e2eContainer.get(CLASSES.CodeExec
 const preferencesHandler: PreferencesHandler = e2eContainer.get(CLASSES.PreferencesHandler);
 
 const workspaceStack: string = 'Go';
-const workspaceSampleName: string = 'example';
-const workspaceSubfolderName: string = 'outyet';
-const fileFolderPath: string = `${workspaceSampleName}/${workspaceSubfolderName}`;
+const workspaceSampleName: string = 'golang-echo-example';
+const workspaceSubfolderName: string = '';
+// const fileFolderPath: string = `${workspaceSampleName}/${workspaceSubfolderName}`;
+const fileFolderPath: string = `${workspaceSampleName}`;
 const fileName: string = `main.go`;
 
-const taskRunServer: string = '1.1 Run outyet';
-const taskStopServer: string = '1.2 Stop outyet';
-const taskTestOutyet: string = '1.3 Test outyet';
+const taskRunServer: string = 'run';
+const taskStopServer: string = 'stop';
+const taskTestOutyet: string = 'test';
 const notificationText: string = 'Process 8080-tcp is now listening on port 8080. Open it ?';
 let workspaceName: string;
 
@@ -46,8 +47,8 @@ suite(`${workspaceStack} test`, async () => {
         });
         projectAndFileTests.waitWorkspaceReadiness(workspaceSampleName, workspaceSubfolderName, false);
         test('Workaround for issue #16113', async () => {
-            Logger.warn(`Manually setting a preference for golang devfile LS based on issue: https://github.com/eclipse/che/issues/16113`);
-            await preferencesHandler.setPreferenceUsingUI('go.useLanguageServer', 'true');
+            Logger.warn(`Manually setting a preference for golang devFile LS based on issue: https://github.com/eclipse/che/issues/16113`);
+            await preferencesHandler.setPreferenceUsingUI('go.useLanguageServer', true);
         });
     });
 
@@ -70,11 +71,11 @@ suite(`${workspaceStack} test`, async () => {
         commonLanguageServerTests.suggestionInvoking(fileName, 42, 10, 'Parse');
         commonLanguageServerTests.autocomplete(fileName, 42, 10, 'Parse');
         commonLanguageServerTests.errorHighlighting(fileName, 'error;\n', 42);
-        // commonLanguageServerTests.goToImplementations(fileName, 42, 10, 'flag.go'); // codenavigation is inconsistent https://github.com/eclipse/che/issues/16929
+        // commonLanguageServerTests.goToImplementations(fileName, 42, 10, 'flag.go'); // codeNavigation is inconsistent https://github.com/eclipse/che/issues/16929
     });
 
     suite('Stop and remove workspace', async() => {
-        test(`Stop and remowe workspace`, async () => {
+        test(`Stop and remove workspace`, async () => {
             await workspaceHandlingTests.stopAndRemoveWorkspace(workspaceName);
         });
     });

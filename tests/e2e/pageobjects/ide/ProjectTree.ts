@@ -248,18 +248,19 @@ export class ProjectTree {
             await this.expandItem(rootItem);
             await this.waitItemExpanded(rootItem);
 
-            // do five checks of the item in one fifth of the time given for root folder item (was causing frequent reloads of the workspace)
-            const isRootSubItemVisible = await this.driverHelper.waitVisibilityBoolean(rootSubitemLocator, 5, visibilityItemPolling / 5);
+            if (rootSubItem !== '') {
+                // do five checks of the item in one fifth of the time given for root folder item (was causing frequent reloads of the workspace)
+                const isRootSubItemVisible = await this.driverHelper.waitVisibilityBoolean(rootSubitemLocator, 5, visibilityItemPolling / 5);
 
-            if (!isRootSubItemVisible) {
-                Logger.trace(`ProjectTree.waitProjectImported sub-items not found, reloading page.`);
-                await this.driverHelper.reloadPage();
-                await this.ide.waitAndSwitchToIdeFrame();
-                await this.ide.waitIde();
-                await this.openProjectTreeContainer();
-                continue;
+                if (!isRootSubItemVisible) {
+                    Logger.trace(`ProjectTree.waitProjectImported sub-items not found, reloading page.`);
+                    await this.driverHelper.reloadPage();
+                    await this.ide.verifyAndSwitchToIdeFrame();
+                    await this.ide.waitIde();
+                    await this.openProjectTreeContainer();
+                    continue;
+                }
             }
-
             return;
         }
 
