@@ -238,7 +238,7 @@ export class ProjectTree {
             if (!isProjectFolderVisible) {
                 Logger.trace(`ProjectTree.waitProjectImported project not located, reloading page.`);
                 await this.driverHelper.reloadPage();
-                await this.ide.waitAndSwitchToIdeFrame();
+                await this.ide.verifyAndSwitchToIdeFrame();
                 await this.ide.waitIde();
                 await this.openProjectTreeContainer();
                 continue;
@@ -248,7 +248,6 @@ export class ProjectTree {
             await this.expandItem(rootItem);
             await this.waitItemExpanded(rootItem);
 
-            if (rootSubItem !== '') {
                 // do five checks of the item in one fifth of the time given for root folder item (was causing frequent reloads of the workspace)
                 const isRootSubItemVisible = await this.driverHelper.waitVisibilityBoolean(rootSubitemLocator, 5, visibilityItemPolling / 5);
 
@@ -260,7 +259,6 @@ export class ProjectTree {
                     await this.openProjectTreeContainer();
                     continue;
                 }
-            }
             return;
         }
 

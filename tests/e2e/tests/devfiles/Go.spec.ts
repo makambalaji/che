@@ -25,15 +25,14 @@ const codeExecutionTests: CodeExecutionTests = e2eContainer.get(CLASSES.CodeExec
 const preferencesHandler: PreferencesHandler = e2eContainer.get(CLASSES.PreferencesHandler);
 
 const workspaceStack: string = 'Go';
-const workspaceSampleName: string = 'golang-echo-example';
-const workspaceSubfolderName: string = '';
-// const fileFolderPath: string = `${workspaceSampleName}/${workspaceSubfolderName}`;
-const fileFolderPath: string = `${workspaceSampleName}`;
+const workspaceSampleName: string = 'golang-example';
+const workspaceSubfolderName: string = 'template';
+const fileFolderPath: string = `${workspaceSampleName}/${workspaceSubfolderName}`;
 const fileName: string = `main.go`;
 
-const taskRunServer: string = 'run';
-const taskStopServer: string = 'stop';
-const taskTestOutyet: string = 'test';
+const taskRunServer: string = 'run-outyet';
+const taskStopServer: string = 'stop-outyet';
+const taskTestOutyet: string = 'test-outyet';
 const notificationText: string = 'Process 8080-tcp is now listening on port 8080. Open it ?';
 let workspaceName: string;
 
@@ -58,20 +57,20 @@ suite(`${workspaceStack} test`, async () => {
     });
 
     suite('Test golang example', async () => {
-        codeExecutionTests.runTask(taskTestOutyet, 60_000);
+        codeExecutionTests.runTask(taskTestOutyet, 80_000);
         codeExecutionTests.closeTerminal(taskTestOutyet);
     });
 
     suite('Run golang example server', async () => {
         codeExecutionTests.runTaskWithNotification(taskRunServer, notificationText, 40_000);
-        codeExecutionTests.runTask(taskStopServer, 5_000);
+        codeExecutionTests.runTask(taskStopServer, 8_000);
     });
 
     suite(`'Language server validation'`, async () => {
-        commonLanguageServerTests.suggestionInvoking(fileName, 42, 10, 'Parse');
-        commonLanguageServerTests.autocomplete(fileName, 42, 10, 'Parse');
-        commonLanguageServerTests.errorHighlighting(fileName, 'error;\n', 42);
-        // commonLanguageServerTests.goToImplementations(fileName, 42, 10, 'flag.go'); // codeNavigation is inconsistent https://github.com/eclipse/che/issues/16929
+        commonLanguageServerTests.suggestionInvoking(fileName, 41, 49, 'Parse');
+        commonLanguageServerTests.autocomplete(fileName, 41, 49, 'Parse');
+        commonLanguageServerTests.errorHighlighting(fileName, 'error;\n', 41);
+        // commonLanguageServerTests.goToImplementations(fileName, 42, 10, 'flag.go'); // codenavigation is inconsistent https://github.com/eclipse/che/issues/16929
     });
 
     suite('Stop and remove workspace', async() => {
