@@ -49,29 +49,26 @@ export class Ide {
             if (err instanceof error.StaleElementReferenceError) {
                 Logger.warn('StaleElementException occurred during waiting for IDE. Sleeping for 2 secs and retrying.');
                 this.driverHelper.wait(2000);
-                await this.driverHelper.waitAndSwitchToFrame(By.css(Ide.IDE_IFRAME_CSS), timeout);
+                try {
+                    await this.driverHelper.waitAndSwitchToFrame(By.css(Ide.IDE_IFRAME_CSS), timeout);
+                } catch (err) {
+                    if (err instanceof error.TimeoutError) {
+                        Logger.warn(`Iframe is not available even after ${timeout} milliseconds, checking for visibility of #theia-main-content-panel.`);
+                        await this.driverHelper.isVisible(By.css('#theia-main-content-panel'));
+                        return
+                    }
+                    throw err
+                }
                 return;
             }
 
             if (err instanceof error.TimeoutError) {
-                Logger.error(`Switching to IDE frame failed after ${timeout} timeout.`);
-                throw err;
+                Logger.warn(`Iframe is not available even after ${timeout} milliseconds, checking for visibility of #theia-main-content-panel.`);
+                await this.driverHelper.isVisible(By.css('#theia-main-content-panel'));
             }
 
             Logger.error(`Switching to IDE frame failed.`);
             throw err;
-        }
-    }
-
-    async verifyAndSwitchToIdeFrame(timeout: number = TimeoutConstants.TS_IDE_LOAD_TIMEOUT) {
-        Logger.debug('Ide.verifyAndSwitchToIdeFrame');
-        try {
-            await this.waitAndSwitchToIdeFrame(timeout);
-        } catch (err) {
-            if (err instanceof error.TimeoutError) {
-                Logger.warn(`Iframe is not available even after ${timeout} milliseconds.`);
-                await this.driverHelper.isVisible(By.css('#theia-main-content-panel'));
-            }
         }
     }
 
